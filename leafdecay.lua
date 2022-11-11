@@ -14,17 +14,6 @@
 -- as an item
 
 
-hades_trees.leafdecay_trunk_cache = {}
-hades_trees.leafdecay_enable_cache = true
--- Spread the load of finding trunks
-hades_trees.leafdecay_trunk_find_allow_accumulator = 0
-
-minetest.register_globalstep(function(dtime)
-	local finds_per_second = 5000
-	hades_trees.leafdecay_trunk_find_allow_accumulator =
-			math.floor(dtime * finds_per_second)
-end)
-
 local function leafdecay_particles(pos, node)
 	minetest.add_particlespawner({
 		amount = math.random(10, 20),
@@ -49,9 +38,9 @@ function hades_falling_leaves.leafdecay_action(p0, node)
   minetest.log("verbose", "[hades_falling_leaves] leafdecay ABM at "..p0.x..", "..p0.y..", "..p0.z..")")
   local do_preserve = false
   local def = minetest.registered_nodes[node.name]
-  local d = def.groups.leafdecay
+  local d = def.groups.leafdecay2
   if not d or d == 0 then
-    minetest.log("verbose", "[hades_falling_leaves] not groups.leafdecay")
+    minetest.log("verbose", "[hades_falling_leaves] not groups.leafdecay2")
     return
   end
   local n0 = minetest.get_node(p0)
@@ -115,6 +104,10 @@ function hades_falling_leaves.leafdecay_action(p0, node)
     minetest.remove_node(p0)
     if not drop_items then
       leafdecay_particles(p0, n0)
+      -- do fall leaves here
+      if def._leafdecay_posteffect then
+        def._leafdecay_posteffect(p0, n0, def, def._leafdecay_falling or 1)
+      end
     end
     minetest.check_for_falling(p0)
   end

@@ -1,12 +1,14 @@
 
 -- logic for decay fallen leaves / needles
 
-function hades_falling_leaves.decay_fallen_leaves(pos node)
+function hades_falling_leaves.decay_fallen_leaves(pos, node)
   local season = hades_seasons.get_season()
   if (season~=hades_seasons.SUMMER) then
     -- do decay
+    local effect = 0
     if (node.param2>0) then
-      node.param2 = node.param2 - 1
+      effect = math.max(1, math.ceil(node.param2/8))
+      node.param2 = math.max(0, node.param2 - effect)
     end
     if (node.param2>0) then
       minetest.swap_node(pos, node)
@@ -19,8 +21,8 @@ function hades_falling_leaves.decay_fallen_leaves(pos node)
     local under = minetest.get_node(pos)
     local def = minetest.registered_nodes[under.name]
     
-    if def._fallen_leaves_decay_effect then
-      def._fallen_leaves_decay_effect(pos, under)
+    if (effect>0) and def._fallen_leaves_decay_effect then
+      def._fallen_leaves_decay_effect(pos, under, effect)
     end
   end
 end

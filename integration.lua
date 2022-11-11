@@ -1,8 +1,8 @@
 
 minetest.override_item("hades_core:ash", {
-  _fallen_leaves_decay_effect = function(pos, node)
+  _fallen_leaves_decay_effect = function(pos, node, effect)
     if node.param2 < 16 then
-      node.param2 = node.param2 + 1
+      node.param2 = math.min(node.param2 + effect, 255)
       minetest.swap_node(pos, node)
     else
       minetest.set_node(pos, {name="hades_core:volcanic_sand"})
@@ -11,9 +11,9 @@ minetest.override_item("hades_core:ash", {
 })
 
 minetest.override_item("hades_core:volcanic_sand", {
-  _fallen_leaves_decay_effect = function(pos, node)
-    if node.param2 < 128 then
-      node.param2 = node.param2 + 1
+  _fallen_leaves_decay_effect = function(pos, node, effect)
+    if node.param2 < 16 then
+      node.param2 = math.min(node.param2 + effect, 255)
       minetest.swap_node(pos, node)
     else
       minetest.set_node(pos, {name="hades_core:fertile_sand"})
@@ -22,9 +22,9 @@ minetest.override_item("hades_core:volcanic_sand", {
 })
 
 minetest.override_item("hades_core:clay", {
-  _fallen_leaves_decay_effect = function(pos, node)
-    if node.param2 < 224 then
-      node.param2 = node.param2 + 1
+  _fallen_leaves_decay_effect = function(pos, node, effect)
+    if node.param2 < 48 then
+      node.param2 = math.min(node.param2 + 1, 255)
       minetest.swap_node(pos, node)
     else
       minetest.set_node(pos, {name="hades_core:fertile_sand"})
@@ -43,14 +43,17 @@ minetest.register_on_mods_loaded(function()
           leaves_fall_limit = leaves_fall_side_limit*2
         end
         groups.ash_fertilizer = nil
+        groups.leafdecay2 = groups.leafdecay
         groups.leafdecay = nil
-        groups.leafdecay2 = 1
-        local leaves_falling = def._leaves_falling or 1
+        groups.leaves_life = 1
+        local season_falling = {[hades_seasons.SEASON_FALL] = 1}
         minetest.override_item(name, {
             groups = groups,
             _leaves_fall_limit = leaves_fall_limit,
             _leaves_fall_side_limit = leaves_fall_side_limit,
-            _leaves_falling = leaves_falling
+            _season_falling = season_falling,
+            _leafdecay_posteffect = hades_falling_leaves.leaves_fall,
+            _leafdecay_falling = 1,
           })
       end
     end
