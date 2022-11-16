@@ -13,6 +13,7 @@ dofile(modpath.."/fallen_decay.lua")
 dofile(modpath.."/leaves_life.lua")
 dofile(modpath.."/needles_life.lua")
 dofile(modpath.."/leafdecay.lua")
+dofile(modpath.."/leafscatter.lua")
 
 dofile(modpath.."/abms.lua")
 

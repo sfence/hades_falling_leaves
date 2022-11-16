@@ -14,6 +14,7 @@ for i = 1,4 do
     paramtype2 = "color",
     tiles = {"hades_falling_leaves_fall_leaves_"..i..".png"},
     buildable_to = true,
+    floodable = true,
     drop = "",
     groups = {oddly_breakable_by_hand = 1, flammable = 2, attached_node =     1, fallen_leaves = 1},
     node_box = {

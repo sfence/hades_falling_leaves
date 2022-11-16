@@ -14,7 +14,8 @@ minetest.register_abm({
     label = "Leaves life logic",
     nodenames = {"group:leaves_life"},
     interval = 30,
-    chance = 16,
+    chance = 54,
+    -- ticks per year 30*20*60/30/54*1/3 * 4 = 7.4 * 4 = 29.6 // up four leaves above groud
     action = function(pos, node)
       local def = minetest.registered_nodes[node.name]
       local leaves_life_cycle = def._leaves_life_cycle or hades_falling_leaves.leaves_life_cycle
@@ -26,7 +27,7 @@ minetest.register_abm({
     label = "Needles life logic",
     nodenames = {"group:needles_life"},
     interval = 33,
-    chance = 17,
+    chance = 76,
     action = function(pos, node)
       local def = minetest.registered_nodes[node.name]
       local needles_life_cycle = def._needles_life_cycle or hades_falling_leaves.needles_life_cycle
@@ -35,10 +36,23 @@ minetest.register_abm({
   })
 
 minetest.register_abm({
+    label = "Leaf scatter logic",
+    nodenames = {"group:fallen_leaves"},
+    interval = 31,
+    chance = 27,
+    action = function(pos, node)
+      local def = minetest.registered_nodes[node.name]
+      local scatter_fallen_leaves = def._scatter_fallen_leaves or hades_falling_leaves.scatter_fallen_leaves
+      scatter_fallen_leaves(pos, node)
+    end,
+  })
+
+minetest.register_abm({
     label = "Fallen leaves decay",
     nodenames = {"group:fallen_leaves"},
-    interval = 87,
+    interval = 27,
     chances = 31,
+    -- ticks per year 30*20*60/27/31*2/3 = 28.7
     action = function(pos, node)
       local def = minetest.registered_nodes[node.name]
       local decay_fallen_leaves = def._decay_fallen_leaves or hades_falling_leaves.decay_fallen_leaves

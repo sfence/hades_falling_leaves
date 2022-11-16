@@ -24,7 +24,7 @@ minetest.override_item("hades_core:volcanic_sand", {
 minetest.override_item("hades_core:clay", {
   _fallen_leaves_decay_effect = function(pos, node, effect)
     if node.param2 < 48 then
-      node.param2 = math.min(node.param2 + 1, 255)
+      node.param2 = math.min(node.param2 + effect, 255)
       minetest.swap_node(pos, node)
     else
       minetest.set_node(pos, {name="hades_core:fertile_sand"})
