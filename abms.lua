@@ -40,6 +40,7 @@ minetest.register_abm({
     nodenames = {"group:fallen_leaves"},
     interval = 31,
     chance = 27,
+    -- ticks per year 30*20*60/27/31*2/3 = 28.7
     action = function(pos, node)
       local def = minetest.registered_nodes[node.name]
       local scatter_fallen_leaves = def._scatter_fallen_leaves or hades_falling_leaves.scatter_fallen_leaves
@@ -57,6 +58,19 @@ minetest.register_abm({
       local def = minetest.registered_nodes[node.name]
       local decay_fallen_leaves = def._decay_fallen_leaves or hades_falling_leaves.decay_fallen_leaves
       decay_fallen_leaves(pos, node)
+    end,
+  })
+
+minetest.register_abm({
+    label = "Fallen needles decay",
+    nodenames = {"group:fallen_needles"},
+    interval = 27,
+    chances = 31,
+    -- ticks per year 30*20*60/27/31*2/3 = 28.7
+    action = function(pos, node)
+      local def = minetest.registered_nodes[node.name]
+      local decay_fallen_needles = def._decay_fallen_needles or hades_falling_needles.decay_fallen_needles
+      decay_fallen_needles(pos, node)
     end,
   })
 

@@ -81,10 +81,23 @@ for i = 1,4 do
 end
 minetest.register_node("hades_falling_leaves:needles_pile", {
   description = S("Fallen Needles"),
-  drawtype = "leveled",
   paramtype = "light",
-  paramtype2 = "level",
+  paramtype2 = "leveled",
   tiles = {"hades_falling_leaves_needles_pile.png"},
+  drawtype = "nodebox",
+  node_box = {
+		type = "leveled",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+	},
+	collision_box = {
+		type = "leveled",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+	},
+  leveled = 1,
   leveled_max = 64,
   groups = {oddly_breakable_by_hand = 1, flammable = 2, attached_node =     1, fallen_needles = 1},
 

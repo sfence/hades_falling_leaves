@@ -32,6 +32,23 @@ minetest.override_item("hades_core:clay", {
   end,
 })
 
+function override_leaves(name, fall_limit, side_limit, season_falling)
+  local def = minetest.registered_nodes[name]
+  local groups = def.groups
+  groups.ash_fertilizer = nil
+  groups.leafdecay2 = groups.leafdecay
+  groups.leafdecay = nil
+  groups.leaves_life = 1
+  minetest.override_item(name, {
+      groups = groups,
+      _leaves_fall_limit = fall_limit,
+      _leaves_fall_side_limit = side_limit,
+      _season_falling = season_falling,
+      _leafdecay_posteffect = hades_falling_leaves.leaves_fall,
+      _leafdecay_falling = 1,
+    })
+end
+
 minetest.register_on_mods_loaded(function()
     for name, def in pairs(minetest.registered_nodes) do
       if (minetest.get_item_group(name, "leafdecay")>0)
