@@ -13,6 +13,7 @@ for i = 1,4 do
     paramtype = "light",
     paramtype2 = "color",
     tiles = {"hades_falling_leaves_fall_leaves_"..i..".png"},
+    use_texture_alpha = "clip",
     buildable_to = true,
     floodable = true,
     drop = "",
@@ -66,6 +67,7 @@ for i = 1,4 do
     paramtype = "light",
     paramtype2 = "color",
     tiles = {"hades_falling_leaves_fall_needles_"..i..".png"},
+    use_texture_alpha = "clip",
     buildable_to = true,
     groups = {oddly_breakable_by_hand = 1, flammable = 2, attached_node =     1, fallen_needles = 1},
     node_box = {
